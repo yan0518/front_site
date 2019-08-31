@@ -1,0 +1,101 @@
+<template>
+  <div>
+    <Card>
+      <Table border :columns="dataTitle" :data="dataTable">
+          <template slot-scope="{ row, index }" slot="action">
+              <Poptip placement="left">
+                <div class="api" slot="content">
+                  <img src="" width="100" height="100" />
+                </div>
+                <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">二维码</Button>
+              </Poptip>
+              <Button type="error" size="small" @click="remove(index)">Delete</Button>
+          </template>
+      </Table>
+      <br>
+      <div>
+        <Page :total="total" show-total />
+      </div>
+     </Card>
+  </div>
+</template>
+<script>
+import Tables from '_c/tables'
+import {  getDocList } from '@/api/doc'
+export default {
+  components: {
+    Tables
+  },
+  data () {
+    return {
+      total: 100,
+      pages: 1,
+      pageSize: 20,
+      pageNum: 1,
+      dataTitle: [
+        {
+          title: '姓名',
+          key: 'name',
+        },
+        {
+          title: '所在医院',
+          key: 'hospital',
+        },
+        {
+          title: '所属科室',
+          key: 'department',
+        },
+        {
+          title: '职称',
+          key: 'position',
+        },
+        {
+          title: '手机号码',
+          key: 'cell',
+        },
+        {
+          title: '所属销售',
+          key: 'saler',
+        },
+        {
+          title: '销售电话',
+          key: 'sale_cell',
+        },
+        {
+          title: '操作',
+          slot: 'action',
+          width: 150
+        }
+      ],
+      dataTable: [{
+        'name': 'test',
+        'hospital': 'test',
+        'department': 'test',
+        'position': 'test',
+        'cell': 'test',
+        'saler': 'test',
+        'sale_cell': 'test',
+      }]
+    }
+  },
+  created() {
+    this.getData(1)
+  },
+  methods: {
+    getData(pageNum) {
+      getDocList().then(res => {
+        if(res.code === 200) {
+          this.dataTable = res.data
+        } else {
+          this.$Message.error('服务器错误')
+        }
+      })
+    },
+    show (index) {
+    },
+    remove (index) {
+      this.dataTable.splice(index, 1);
+    }
+  }
+}
+</script>
