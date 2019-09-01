@@ -1,11 +1,11 @@
 <template>
   <div>
     <Card>
-      <Table border :columns="dataTitle" :data="dataTable">
+      <Table border :columns="dataTitle" :data="dataTable" style="min-height: 200px;">
           <template slot-scope="{ row, index }" slot="action">
-              <Poptip placement="left">
+              <Poptip placement="left" @on-popper-show="creatQrCode(row.uuid)">
                 <div class="api" slot="content">
-                  <img src="" width="100" height="100" />
+                  <div :key="index" class="qrCode" ref="qrCode"></div>
                 </div>
                 <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">二维码</Button>
               </Poptip>
@@ -22,6 +22,8 @@
 <script>
 import Tables from '_c/tables'
 import { getDocList } from '@/api/doc'
+import QRCode from 'qrcodejs2'
+
 export default {
   components: {
     Tables
@@ -30,7 +32,7 @@ export default {
     return {
       total: 1,
       pages: 1,
-      pageSize: 1,
+      pageSize: 2,
       pageNum: 1,
       dataTitle: [
         {
@@ -74,6 +76,15 @@ export default {
     this.getData(1)
   },
   methods: {
+    creatQrCode (url) {
+      const qrcode = new QRCode(this.$refs.qrCode, {
+        text: url,
+        width: 100,
+        height: 100,
+        colorDark: '#000',
+        colorLight: '#fff'
+      })
+    },
     getData (pageNum) {
       const data = {
         pageNum: pageNum,
