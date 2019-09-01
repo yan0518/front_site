@@ -14,52 +14,52 @@
       </Table>
       <br>
       <div>
-        <Page :total="total" show-total />
+        <Page :total="total" :current="pageNum" ref="page" :page-size="pageSize" @on-change="changePage" show-total />
       </div>
      </Card>
   </div>
 </template>
 <script>
 import Tables from '_c/tables'
-import {  getDocList } from '@/api/doc'
+import { getDocList } from '@/api/doc'
 export default {
   components: {
     Tables
   },
   data () {
     return {
-      total: 100,
+      total: 1,
       pages: 1,
-      pageSize: 20,
+      pageSize: 1,
       pageNum: 1,
       dataTitle: [
         {
           title: '姓名',
-          key: 'name',
+          key: 'name'
         },
         {
           title: '所在医院',
-          key: 'hospital',
+          key: 'hospital'
         },
         {
           title: '所属科室',
-          key: 'department',
+          key: 'department'
         },
         {
           title: '职称',
-          key: 'position',
+          key: 'position'
         },
         {
           title: '手机号码',
-          key: 'cell',
+          key: 'cell'
         },
         {
           title: '所属销售',
-          key: 'saler',
+          key: 'saler'
         },
         {
           title: '销售电话',
-          key: 'sale_cell',
+          key: 'sale_cell'
         },
         {
           title: '操作',
@@ -67,34 +67,35 @@ export default {
           width: 150
         }
       ],
-      dataTable: [{
-        'name': 'test',
-        'hospital': 'test',
-        'department': 'test',
-        'position': 'test',
-        'cell': 'test',
-        'saler': 'test',
-        'sale_cell': 'test',
-      }]
+      dataTable: []
     }
   },
-  created() {
+  created () {
     this.getData(1)
   },
   methods: {
-    getData(pageNum) {
-      getDocList().then(res => {
-        if(res.code === 200) {
-          this.dataTable = res.data
+    getData (pageNum) {
+      const data = {
+        pageNum: pageNum,
+        pageSize: this.pageSize
+      }
+      getDocList(data).then(res => {
+        if (res.data.code === 1) {
+          this.dataTable = res.data.data.list
+          this.total = res.data.data.total
         } else {
           this.$Message.error('服务器错误')
         }
       })
     },
+    changePage (pageNum) {
+      this.pageNum = pageNum
+      this.getData(pageNum)
+    },
     show (index) {
     },
     remove (index) {
-      this.dataTable.splice(index, 1);
+      this.dataTable.splice(index, 1)
     }
   }
 }

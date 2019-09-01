@@ -7,12 +7,14 @@
       <Input v-model="formValidate.hospital" placeholder="请输入医院"></Input>
     </FormItem>
     <FormItem label="所属科室">
-      <Select v-model="formValidate.department" prop="department" placeholder="请选择所属科室">
+      <Select v-model="formValidate.department" placeholder="请选择所属科室">
         <Option v-for="(item, index) of deparmentlist" :key="index" :value="item.key">{{ item.name }}</Option>
       </Select>
     </FormItem>
-    <FormItem label="职称" prop="position">
-      <Input v-model="formValidate.position" placeholder="请输入职称"></Input>
+    <FormItem label="职称">
+      <Select v-model="formValidate.position" placeholder="请选择职称">
+        <Option v-for="(item, index) of positionList" :key="index" :value="item.key">{{ item.name }}</Option>
+      </Select>
     </FormItem>
     <FormItem label="手机号码" prop="cell">
       <Input type="number" v-model="formValidate.cell" placeholder="手机号码"></Input>
@@ -29,54 +31,65 @@
   </Form>
 </template>
 <script>
-  import { createDoc } from '@/api/doc'
-  export default {
-     data () {
-      return {
-        deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
-        formValidate: {
-          name: '',
-          hospital: '',
-          department: '',
-          position: '',
-          cell: '',
-          saler: '',
-          sale_cell: ''
-        },
-        ruleValidate: {
-          name: [
-            { required: true, message: '请输入医生姓名', trigger: 'blur' }
-          ],
-          hospital: [
-            { required: true, message: '请输入所在医院', trigger: 'blur' }
-          ],
-          department: [
-            { required: true, message: '请输入所属科室', trigger: 'blur'}
-          ],
-          position: [
-            { required: true, message: '请输入职称', trigger: 'blur'}
-          ],
-          cell: [
-            { required: true, message: '请输入医生手机号码', trigger: 'blur'}
-          ]
-        }
-      }
-    },
-    methods: {
-      handleSubmit (name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            // createDoc().then(res => {
-              this.$Message.success('创建医生成功!')
-              this.$router.push({
-                path: '/doc/index'
-              })
-            // })
-          } else {
-            this.$Message.error('创建失败!')
-          }
-        })
+import { createDoc } from '@/api/doc'
+export default {
+  data () {
+    return {
+      positionList: [{ key: 1, name: '主任医生' }, { key: 2, name: '副主任医生' }],
+      deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
+      formValidate: {
+        name: '',
+        hospital: '',
+        department: '',
+        position: '',
+        cell: '',
+        saler: '',
+        sale_cell: ''
+      },
+      ruleValidate: {
+        name: [
+          { required: true, message: '请输入医生姓名', trigger: 'blur' }
+        ],
+        hospital: [
+          { required: true, message: '请输入所在医院', trigger: 'blur' }
+        ],
+        cell: [
+          { required: true, message: '请输入医生手机号码', trigger: 'blur' }
+        ]
       }
     }
+  },
+  methods: {
+    handleSubmit (name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          if (!this.formValidate.department) {
+            alert('请选择所属科室')
+            return false
+          }
+          if (!this.formValidate.position) {
+            alert('请输入职称')
+            return false
+          }
+          const formData = new FormData()
+          formData.append('name', this.formValidate.name)
+          formData.append('hospital', this.formValidate.hospital)
+          formData.append('department', this.formValidate.department)
+          formData.append('position', this.formValidate.position)
+          formData.append('cell', this.formValidate.cell)
+          formData.append('saler', this.formValidate.saler)
+          formData.append('sale_cell', this.formValidate.sale_cell)
+          createDoc(formData).then(res => {
+            this.$Message.success('创建医生成功!')
+            this.$router.push({
+              path: '/doc/index'
+            })
+          })
+        } else {
+          this.$Message.error('创建失败!')
+        }
+      })
+    }
   }
+}
 </script>

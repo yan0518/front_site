@@ -7,40 +7,40 @@
       </Table>
       <br>
       <div>
-        <Page :total="total" show-total />
+        <Page :total="total" :current="pageNum" ref="page" :page-size="pageSize" @on-change="changePage" show-total />
       </div>
      </Card>
   </div>
 </template>
 <script>
 import Tables from '_c/tables'
-import {  getPatientList } from '@/api/patient'
+import { getPatientList } from '@/api/patient'
 export default {
   components: {
     Tables
   },
   data () {
     return {
-      total: 100,
+      total: 10,
       pages: 1,
-      pageSize: 20,
+      pageSize: 1,
       pageNum: 1,
       dataTitle: [
         {
           title: '用户昵称',
-          key: 'name',
+          key: 'name'
         },
         {
           title: '电话',
-          key: 'cell',
+          key: 'cell'
         },
         {
           title: '注册时间',
-          key: 'register_time',
+          key: 'created_at'
         },
         {
           title: '关联医生',
-          key: 'doctor',
+          key: 'doctor_name'
         },
         {
           title: '操作',
@@ -48,22 +48,26 @@ export default {
           width: 150
         }
       ],
-      dataTable: [{
-        'name': 'test',
-        'cell': 'test',
-        'register_time': 'test',
-        'doctor': 'test'
-      }]
+      dataTable: []
     }
   },
-  created() {
+  created () {
     this.getData(1)
   },
   methods: {
-    getData(pageNum) {
-      getDocList().then(res => {
-        if(res.code === 200) {
-          this.dataTable = res.data
+    changePage (pageNum) {
+      this.pageNum = pageNum
+      this.getData(pageNum)
+    },
+    getData (pageNum) {
+      const data = {
+        pageNum: pageNum,
+        pageSize: this.pageSize
+      }
+      getPatientList(data).then(res => {
+        if (res.data.code === 1) {
+          this.dataTable = res.data.data.list
+          this.total = res.data.data.total
         } else {
           this.$Message.error('服务器错误')
         }

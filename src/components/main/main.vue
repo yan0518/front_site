@@ -12,7 +12,7 @@
     <Layout>
       <Header class="header-con">
         <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-          <user :user-avatar="userAvatar"/>
+          <user :user-name="userName"/>
         </header-bar>
       </Header>
       <Content class="main-content-con">
@@ -72,6 +72,9 @@ export default {
     },
     tagRouter () {
       return this.$store.state.app.tagRouter
+    },
+    userName () {
+      return this.$store.state.user.userName
     },
     userAvatar () {
       return this.$store.state.user.avatarImgPath
