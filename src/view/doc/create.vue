@@ -25,6 +25,15 @@
     <FormItem label="销售电话" prop="sale_cell">
       <Input type="number" v-model="formValidate.sale_cell" placeholder="销售电话"></Input>
     </FormItem>
+    <FormItem label="头像">
+      <Upload
+        :before-upload="handleUpload"
+        name="Filedata"
+        action="">
+        <Button type="text">选择图片</Button>
+      </Upload>
+      <img v-if="file !== null" :src="photo" width="150" height="150">
+    </FormItem>
     <FormItem>
       <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
     </FormItem>
@@ -36,8 +45,10 @@ export default {
   data () {
     return {
       id: 0,
+      photo: null,
       positionList: [{ key: 1, name: '主任医生' }, { key: 2, name: '副主任医生' }],
       deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
+      file: null,
       formValidate: {
         name: '',
         hospital: '',
@@ -66,6 +77,8 @@ export default {
       getDocInfo(this.id).then(res => {
         if (res.data.code === 1) {
           this.formValidate = res.data.data
+          console.log(res.data.data)
+          this.photo = res.data.data.photo
         } else {
           this.$Message.error('服务器错误')
         }
@@ -73,6 +86,25 @@ export default {
     }
   },
   methods: {
+    handleUpload (file) {
+      this.file = file
+      if (this.file === null) {
+        alert('请选择文件')
+        return false
+      }
+      if (this.file.name.split('.')[1] !== 'jpg' && this.file.name.split('.')[1] !== 'jpeg' && this.file.name.split('.')[1] !== 'png' &&
+        this.file.name.split('.')[1] !== 'JPG' && this.file.name.split('.')[1] !== 'JPEG' && this.file.name.split('.')[1] !== 'PNG') {
+        alert('图片只支持jpg、jpeg、png格式')
+        return false
+      }
+      let fileSize = (this.file.size / 1024).toFixed(2)
+      if (fileSize > 20480) {
+        alert('您上传的文件大于20M')
+        return false
+      }
+      this.photo = window.URL.createObjectURL(this.file)
+      return false
+    },
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
@@ -92,6 +124,9 @@ export default {
           formData.append('cell', this.formValidate.cell)
           formData.append('saler', this.formValidate.saler)
           formData.append('sale_cell', this.formValidate.sale_cell)
+          if (this.file) {
+            formData.append('photo', this.file)
+          }
           if (this.id) {
             formData.append('id', this.id)
             editDoc(formData).then(res => {
