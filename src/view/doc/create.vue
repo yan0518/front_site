@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       id: 0,
-      photo: null,
+      photo: '',
       positionList: [{ key: 1, name: '主任医生' }, { key: 2, name: '副主任医生' }],
       deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
       file: null,

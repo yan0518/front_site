@@ -30,7 +30,7 @@ export default {
     return {
       total: 1,
       pages: 1,
-      pageSize: 2,
+      pageSize: 20,
       pageNum: 1,
       dataTitle: [
         {

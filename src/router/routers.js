@@ -59,15 +59,6 @@ export default [
     component: Main,
     children: [
       {
-        path: '/doc/create',
-        name: 'doc.create',
-        meta: {
-          icon: 'md-arrow-dropdown-circle',
-          title: '编辑医生'
-        },
-        component: () => import('@/view/doc/create.vue')
-      },
-      {
         path: '/doc/index',
         name: 'doc.index',
         meta: {
@@ -75,6 +66,15 @@ export default [
           title: '医生一览'
         },
         component: () => import('@/view/doc/index.vue')
+      },
+      {
+        path: '/doc/create',
+        name: 'doc.create',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '创建医生'
+        },
+        component: () => import('@/view/doc/create.vue')
       }
     ]
   },
