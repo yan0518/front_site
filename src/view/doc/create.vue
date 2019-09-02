@@ -1,43 +1,47 @@
 <template>
-  <Form ref="formValidate" :model="formValidate" style="width: 70%;" :rules="ruleValidate" :label-width="80">
-    <FormItem label="姓名" prop="name">
-      <Input v-model="formValidate.name" placeholder="请输入医生姓名"></Input>
-    </FormItem>
-    <FormItem label="所在医院" prop="hospital">
-      <Input v-model="formValidate.hospital" placeholder="请输入医院"></Input>
-    </FormItem>
-    <FormItem label="所属科室">
-      <Select v-model="formValidate.department" placeholder="请选择所属科室">
-        <Option v-for="(item, index) of deparmentlist" :key="index" :value="item.key">{{ item.name }}</Option>
-      </Select>
-    </FormItem>
-    <FormItem label="职称">
-      <Select v-model="formValidate.position" placeholder="请选择职称">
-        <Option v-for="(item, index) of positionList" :key="index" :value="item.key">{{ item.name }}</Option>
-      </Select>
-    </FormItem>
-    <FormItem label="手机号码" prop="cell">
-      <Input type="number" v-model="formValidate.cell" placeholder="手机号码"></Input>
-    </FormItem>
-    <FormItem label="所属销售" prop="saler">
-      <Input v-model="formValidate.saler" placeholder="所属销售"></Input>
-    </FormItem>
-    <FormItem label="销售电话" prop="sale_cell">
-      <Input type="number" v-model="formValidate.sale_cell" placeholder="销售电话"></Input>
-    </FormItem>
-    <FormItem label="头像">
-      <Upload
-        :before-upload="handleUpload"
-        name="Filedata"
-        action="">
-        <Button type="text">选择图片</Button>
-      </Upload>
-      <img v-if="photo !== ''" :src="photo" width="150" height="150">
-    </FormItem>
-    <FormItem>
-      <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
-    </FormItem>
-  </Form>
+  <div>
+    <Card>
+    <Form ref="formValidate" :model="formValidate" style="width: 70%;" :rules="ruleValidate" :label-width="80">
+      <FormItem label="姓名" prop="name">
+        <Input v-model="formValidate.name" placeholder="请输入医生姓名"></Input>
+      </FormItem>
+      <FormItem label="头像">
+        <Upload
+          :before-upload="handleUpload"
+          name="Filedata"
+          action="">
+          <Button type="default">请上传头像</Button>
+        </Upload>
+        <img v-if="photo !== ''" :src="photo" width="150" height="150">
+      </FormItem>
+      <FormItem label="所在医院" prop="hospital">
+        <Input v-model="formValidate.hospital" placeholder="请输入医院"></Input>
+      </FormItem>
+      <FormItem label="所属科室">
+        <Select v-model="formValidate.department" placeholder="请选择所属科室">
+          <Option v-for="(item, index) of deparmentlist" :key="index" :value="item.key">{{ item.name }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="职称">
+        <Select v-model="formValidate.position" placeholder="请选择职称">
+          <Option v-for="(item, index) of positionList" :key="index" :value="item.key">{{ item.name }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="手机号码" prop="cell">
+        <Input type="number" v-model="formValidate.cell" placeholder="手机号码"></Input>
+      </FormItem>
+      <FormItem label="所属销售" prop="saler">
+        <Input v-model="formValidate.saler" placeholder="所属销售"></Input>
+      </FormItem>
+      <FormItem label="销售电话" prop="sale_cell">
+        <Input type="number" v-model="formValidate.sale_cell" placeholder="销售电话"></Input>
+      </FormItem>
+      <FormItem>
+        <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
+      </FormItem>
+    </Form>
+  </Card>
+  </div>
 </template>
 <script>
 import { createDoc, getDocInfo, editDoc } from '@/api/doc'
