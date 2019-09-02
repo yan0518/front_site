@@ -3,12 +3,6 @@
     <FormItem label="姓名" prop="name">
       <Input v-model="formValidate.name" placeholder="请输入医生姓名"></Input>
     </FormItem>
-    <FormItem label="性别">
-      <RadioGroup v-model="formValidate.sex">
-        <Radio label="男" value="1">男</Radio>
-        <Radio label="女" value="2">女</Radio>
-      </RadioGroup>
-    </FormItem>
     <FormItem label="所在医院" prop="hospital">
       <Input v-model="formValidate.hospital" placeholder="请输入医院"></Input>
     </FormItem>
@@ -57,7 +51,6 @@ export default {
       file: null,
       formValidate: {
         name: '',
-        sex: 1,
         hospital: '',
         department: '',
         position: '',
@@ -124,7 +117,6 @@ export default {
           }
           const formData = new FormData()
           formData.append('name', this.formValidate.name)
-          formData.append('sex', this.formValidate.sex)
           formData.append('hospital', this.formValidate.hospital)
           formData.append('department', this.formValidate.department)
           formData.append('position', this.formValidate.position)
