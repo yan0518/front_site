@@ -55,3 +55,13 @@ export const getDocInfo = (data) => {
     method: 'get'
   })
 }
+
+export const getDocQrcode = (data) => {
+  return axios.request({
+    url: '/wechat/qrcode/' + data,
+    headers: {
+      Authorization: 'Bearer ' + token
+    },
+    method: 'get'
+  })
+}

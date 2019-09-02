@@ -17,13 +17,11 @@
   </div>
 </template>
 <script>
-import Tables from '_c/tables'
-import { getDocList, delDoc } from '@/api/doc'
+import { getDocList, delDoc, getDocQrcode } from '@/api/doc'
 import qrcode from './qrCode.vue'
 
 export default {
   components: {
-    Tables,
     qrcode
   },
   data () {
@@ -93,8 +91,14 @@ export default {
       this.getData(pageNum)
     },
     show (uuid) {
-      this.$refs.qrcodeModal.url = 'http://121.40.138.67:8081/user/register/' + uuid
-      this.$refs.qrcodeModal.qrCode = true
+      getDocQrcode(uuid).then(res => {
+        if (res.data.code === 1) {
+          this.$refs.qrcodeModal.url = res.data.data
+          this.$refs.qrcodeModal.qrCode = true
+        } else {
+          this.$Message.error('服务器错误')
+        }
+      })
     },
     edit (id) {
       this.$router.push({
