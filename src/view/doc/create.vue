@@ -31,10 +31,11 @@
   </Form>
 </template>
 <script>
-import { createDoc } from '@/api/doc'
+import { createDoc, getDocInfo, editDoc } from '@/api/doc'
 export default {
   data () {
     return {
+      id: 0,
       positionList: [{ key: 1, name: '主任医生' }, { key: 2, name: '副主任医生' }],
       deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
       formValidate: {
@@ -59,6 +60,18 @@ export default {
       }
     }
   },
+  created () {
+    if (typeof this.$route.query.id !== 'undefined') {
+      this.id = this.$route.query.id
+      getDocInfo(this.id).then(res => {
+        if (res.data.code === 1) {
+          this.formValidate = res.data.data
+        } else {
+          this.$Message.error('服务器错误')
+        }
+      })
+    }
+  },
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
@@ -79,14 +92,32 @@ export default {
           formData.append('cell', this.formValidate.cell)
           formData.append('saler', this.formValidate.saler)
           formData.append('sale_cell', this.formValidate.sale_cell)
-          createDoc(formData).then(res => {
-            this.$Message.success('创建医生成功!')
-            this.$router.push({
-              path: '/doc/index'
+          if (this.id) {
+            formData.append('id', this.id)
+            editDoc(formData).then(res => {
+              if (res.data.code === 1) {
+                this.$Message.success('编辑医生成功!')
+                this.$router.push({
+                  path: '/doc/index'
+                })
+              } else {
+                this.$Message.error('编辑失败!')
+              }
             })
-          })
+          } else {
+            createDoc(formData).then(res => {
+              if (res.data.code === 1) {
+                this.$Message.success('创建医生成功!')
+                this.$router.push({
+                  path: '/doc/index'
+                })
+              } else {
+                this.$Message.error('创建失败!')
+              }
+            })
+          }
         } else {
-          this.$Message.error('创建失败!')
+          this.$Message.error('操作失败!')
         }
       })
     }

@@ -3,13 +3,9 @@
     <Card>
       <Table border :columns="dataTitle" :data="dataTable" style="min-height: 200px;">
           <template slot-scope="{ row, index }" slot="action">
-              <Poptip placement="left" @on-popper-show="creatQrCode(row.uuid)">
-                <div class="api" slot="content">
-                  <div :key="index" class="qrCode" ref="qrCode"></div>
-                </div>
-                <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">二维码</Button>
-              </Poptip>
-              <Button type="error" size="small" @click="remove(index)">Delete</Button>
+              <Button type="primary" size="small" style="margin-right: 5px" @click="show(row.uuid)">二维码</Button>
+              <Button type="success" size="small" style="margin-right: 5px" @click="edit(row.id)">编辑</Button>
+              <Button type="error" size="small" @click="remove(index, row.id)">删除</Button>
           </template>
       </Table>
       <br>
@@ -17,16 +13,18 @@
         <Page :total="total" :current="pageNum" ref="page" :page-size="pageSize" @on-change="changePage" show-total />
       </div>
      </Card>
+      <qrcode ref="qrcodeModal"></qrcode>
   </div>
 </template>
 <script>
 import Tables from '_c/tables'
-import { getDocList } from '@/api/doc'
-import QRCode from 'qrcodejs2'
+import { getDocList, delDoc } from '@/api/doc'
+import qrcode from './qrCode.vue'
 
 export default {
   components: {
-    Tables
+    Tables,
+    qrcode
   },
   data () {
     return {
@@ -66,7 +64,7 @@ export default {
         {
           title: '操作',
           slot: 'action',
-          width: 150
+          width: 200
         }
       ],
       dataTable: []
@@ -76,15 +74,6 @@ export default {
     this.getData(1)
   },
   methods: {
-    creatQrCode (url) {
-      const qrcode = new QRCode(this.$refs.qrCode, {
-        text: url,
-        width: 100,
-        height: 100,
-        colorDark: '#000',
-        colorLight: '#fff'
-      })
-    },
     getData (pageNum) {
       const data = {
         pageNum: pageNum,
@@ -103,10 +92,31 @@ export default {
       this.pageNum = pageNum
       this.getData(pageNum)
     },
-    show (index) {
+    show (uuid) {
+      this.$refs.qrcodeModal.url = 'http://121.40.138.67:8081/user/register/' + uuid
+      this.$refs.qrcodeModal.qrCode = true
     },
-    remove (index) {
-      this.dataTable.splice(index, 1)
+    edit (id) {
+      this.$router.push({
+        path: '/doc/create',
+        query: {
+          'id': id
+        }
+      })
+    },
+    remove (index, id) {
+      if (!confirm('确定要删除吗')) {
+        return false
+      }
+      delDoc(id).then(res => {
+        if (res.data.code === 1) {
+          this.$Message.info('删除成功')
+          this.dataTable.splice(index, 1)
+          this.getData(1)
+        } else {
+          this.$Message.error('服务器错误')
+        }
+      })
     }
   }
 }
