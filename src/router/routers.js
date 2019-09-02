@@ -63,7 +63,7 @@ export default [
         name: 'doc.create',
         meta: {
           icon: 'md-arrow-dropdown-circle',
-          title: '创建医生'
+          title: '编辑医生'
         },
         component: () => import('@/view/doc/create.vue')
       },

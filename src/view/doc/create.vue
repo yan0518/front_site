@@ -32,7 +32,7 @@
         action="">
         <Button type="text">选择图片</Button>
       </Upload>
-      <img v-if="file !== null" :src="photo" width="150" height="150">
+      <img v-if="photo !== ''" :src="photo" width="150" height="150">
     </FormItem>
     <FormItem>
       <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
@@ -77,7 +77,6 @@ export default {
       getDocInfo(this.id).then(res => {
         if (res.data.code === 1) {
           this.formValidate = res.data.data
-          console.log(res.data.data)
           this.photo = res.data.data.photo
         } else {
           this.$Message.error('服务器错误')
