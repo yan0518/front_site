@@ -66,7 +66,7 @@ export default {
         username: userName,
         password: password,
         client_id: 1,
-        client_secret: '2cFchfyQKMVdg11HgdS6WN3GQW2XORskdUoxzFXd',
+        client_secret: 'UGM1vGPNyvoVSanZBHDewbmNmwN3qBGKyTVF5IqW',
         grant_type: 'password'
       }
       return new Promise((resolve, reject) => {
@@ -75,6 +75,7 @@ export default {
           commit('setToken', data.access_token)
           resolve()
         }).catch(err => {
+          alert('登录失败')
           reject(err)
         })
       })

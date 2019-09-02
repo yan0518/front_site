@@ -17,8 +17,8 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: 'http://doc_api.test.work/api/',
-    pro: 'http://doc_api.test.work/api/'
+    dev: 'http://api_test.test/api/',
+    pro: 'http://api.pigzu.com/api/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home
