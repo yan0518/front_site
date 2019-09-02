@@ -1,6 +1,16 @@
 <template>
   <div>
     <Card>
+      <Row>
+        <Col push="12" span="12">
+          <Input v-model="search_key"
+             ref="search_key"
+             icon="ios-search"
+             @on-click="searchList"
+             placeholder="请输入医生姓名或者手机号"></Input>
+        </Col>
+      </Row>
+      <br>
       <Table border :columns="dataTitle" :data="dataTable">
           <template slot-scope="{ row, index }" slot="action">
           </template>
@@ -21,6 +31,7 @@ export default {
   },
   data () {
     return {
+      search_key: '',
       total: 10,
       pages: 1,
       pageSize: 20,
@@ -55,6 +66,9 @@ export default {
     this.getData(1)
   },
   methods: {
+    searchList () {
+      this.getData(1)
+    },
     changePage (pageNum) {
       this.pageNum = pageNum
       this.getData(pageNum)
@@ -62,7 +76,8 @@ export default {
     getData (pageNum) {
       const data = {
         pageNum: pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        searchKey: this.search_key
       }
       getPatientList(data).then(res => {
         if (res.data.code === 1) {

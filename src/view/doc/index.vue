@@ -1,6 +1,16 @@
 <template>
   <div>
     <Card>
+      <Row>
+        <Col push="12" span="12">
+          <Input v-model="search_key"
+             ref="search_key"
+             icon="ios-search"
+             @on-click="searchList"
+             placeholder="请输入医生姓名或者手机号"></Input>
+        </Col>
+      </Row>
+      <br>
       <Table border :columns="dataTitle" :data="dataTable" style="min-height: 200px;">
           <template slot-scope="{ row, index }" slot="action">
               <Button type="primary" size="small" style="margin-right: 5px" @click="show(row.uuid)">二维码</Button>
@@ -26,6 +36,7 @@ export default {
   },
   data () {
     return {
+      search_key: '',
       total: 1,
       pages: 1,
       pageSize: 20,
@@ -75,7 +86,8 @@ export default {
     getData (pageNum) {
       const data = {
         pageNum: pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        searchKey: this.search_key
       }
       getDocList(data).then(res => {
         if (res.data.code === 1) {
@@ -107,6 +119,9 @@ export default {
           'id': id
         }
       })
+    },
+    searchList () {
+      this.getData(1)
     },
     remove (index, id) {
       if (!confirm('确定要删除吗')) {
