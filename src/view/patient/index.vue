@@ -7,7 +7,7 @@
              ref="search_key"
              icon="ios-search"
              @on-click="searchList"
-             placeholder="请输入医生姓名或者手机号"></Input>
+             placeholder="请输入昵称或者手机号"></Input>
         </Col>
       </Row>
       <br>
