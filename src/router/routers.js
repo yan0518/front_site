@@ -100,6 +100,35 @@ export default [
     ]
   },
   {
+    path: '/user',
+    name: 'user',
+    meta: {
+      icon: 'logo-buffer',
+      title: '管理员管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: '/user/index',
+        name: 'user.index',
+        meta: {
+          icon: 'md-trending-up',
+          title: '管理员一览'
+        },
+        component: () => import('@/view/admin/index.vue')
+      },
+      {
+        path: '/user/create',
+        name: 'user.create',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '创建管理员'
+        },
+        component: () => import('@/view/admin/create.vue')
+      }
+    ]
+  },
+  {
     path: '/401',
     name: 'error_401',
     meta: {

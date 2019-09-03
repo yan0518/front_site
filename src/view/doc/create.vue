@@ -133,25 +133,21 @@ export default {
           if (this.id) {
             formData.append('id', this.id)
             editDoc(formData).then(res => {
-              if (res.data.code === 1) {
-                this.$Message.success('编辑医生成功!')
-                this.$router.push({
-                  path: '/doc/index'
-                })
-              } else {
-                this.$Message.error('编辑失败!')
-              }
+              this.$Message.success('编辑医生成功!')
+              this.$router.push({
+                path: '/doc/index'
+              })
+            }).catch(err => {
+              alert('编辑失败')
             })
           } else {
             createDoc(formData).then(res => {
-              if (res.data.code === 1) {
-                this.$Message.success('创建医生成功!')
-                this.$router.push({
-                  path: '/doc/index'
-                })
-              } else {
-                this.$Message.error('创建失败!')
-              }
+              this.$Message.success('创建医生成功!')
+              this.$router.push({
+                path: '/doc/index'
+              })
+            }).catch(err => {
+              alert('新建医生失败')
             })
           }
         } else {
