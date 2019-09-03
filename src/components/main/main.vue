@@ -1,17 +1,16 @@
 <template>
   <Layout style="height: 100%" class="main">
-    <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
+    <Sider hide-trigger collapsible :width="180" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
-        <div class="logo-con">
-          <label v-show="!collapsed" style="font-size: 28px;color: rgb(204, 204, 204);">天益常乐</label>
-          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+        <div class="logo-con" style="text-align: center; margin-left: -20px;">
+          <label style="font-size: 28px; color: rgb(204, 204, 204);">天益常乐</label>
         </div>
       </side-menu>
     </Sider>
     <Layout>
       <Header class="header-con">
-        <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
+        <header-bar>
           <user :user-name="userName"/>
         </header-bar>
       </Header>
@@ -119,9 +118,6 @@ export default {
         params,
         query
       })
-    },
-    handleCollapsedChange (state) {
-      this.collapsed = state
     },
     handleCloseTag (res, type, route) {
       if (type !== 'others') {
