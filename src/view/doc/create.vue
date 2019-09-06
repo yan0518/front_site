@@ -50,8 +50,110 @@ export default {
     return {
       id: 0,
       photo: '',
-      positionList: [{ key: 1, name: '主任医生' }, { key: 2, name: '副主任医生' }],
-      deparmentlist: [{ key: 1, name: '外科' }, { key: 2, name: '内科' }],
+      deparmentlist: [{
+        key: 1,
+        name: '内科'
+      },
+      {
+        key: 2,
+        name: '内分泌科'
+      },
+      {
+        key: 3,
+        name: '肝胆科'
+      },
+      {
+        key: 4,
+        name: '心胸外科'
+      },
+      {
+        key: 5,
+        name: '预防保健科'
+      },
+      {
+        key: 6,
+        name: '护理部'
+      },
+      {
+        key: 7,
+        name: '营养科'
+      },
+      {
+        key: 8,
+        name: '免疫科'
+      },
+      {
+        key: 9,
+        name: '麻醉科'
+      },
+      {
+        key: 10,
+        name: '康复科'
+      },
+      {
+        key: 11,
+        name: '血液科'
+      },
+      {
+        key: 12,
+        name: '药剂科'
+      },
+      {
+        key: 13,
+        name: '放射科'
+      },
+      {
+        key: 14,
+        name: '肾内科'
+      },
+      {
+        key: 15,
+        name: '心内科'
+      },
+      {
+        key: 16,
+        name: '感染传染科'
+      },
+      {
+        key: 17,
+        name: '儿科'
+      },
+      {
+        key: 18,
+        name: '妇科'
+      },
+      {
+        key: 19,
+        name: '骨科'
+      },
+      {
+        key: 20,
+        name: '神经科'
+      }],
+      positionList: [{
+        key: 1,
+        name: '主任医师'
+      },
+      {
+        key: 2,
+        name: '副主任医师'
+      },
+      {
+        key: 3,
+        name: '主治医师'
+      },
+      {
+        key: 4,
+        name: '医师'
+      },
+      {
+        key: 5,
+        name: '临床营养师'
+      },
+      {
+        key: 6,
+        name: '药师'
+      }],
       file: null,
       formValidate: {
         name: '',

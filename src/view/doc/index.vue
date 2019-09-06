@@ -12,11 +12,17 @@
       </Row>
       <br>
       <Table border :columns="dataTitle" :data="dataTable" style="min-height: 200px;">
-          <template slot-scope="{ row, index }" slot="action">
-              <Button type="primary" size="small" style="margin-right: 5px" @click="show(row.uuid)">二维码</Button>
-              <Button type="success" size="small" style="margin-right: 5px" @click="edit(row.id)">编辑</Button>
-              <Button type="error" size="small" @click="remove(index, row.id)">删除</Button>
-          </template>
+        <template slot-scope="{ row, index }" slot="department">
+          <label v-for="(item, idx) in deparmentlist" :key="idx" v-if="item.key == row.department">{{item.name}}</label>
+        </template>
+        <template slot-scope="{ row, index }" slot="position">
+          <label v-for="(item, idx) in positionList" :key="idx" v-if="item.key == row.position">{{item.name}}</label>
+        </template>
+        <template slot-scope="{ row, index }" slot="action">
+          <Button type="primary" size="small" style="margin-right: 5px" @click="show(row.uuid)">二维码</Button>
+          <Button type="success" size="small" style="margin-right: 5px" @click="edit(row.id)">编辑</Button>
+          <Button type="error" size="small" @click="remove(index, row.id)">删除</Button>
+        </template>
       </Table>
       <br>
       <div>
@@ -41,6 +47,110 @@ export default {
       pages: 1,
       pageSize: 20,
       pageNum: 1,
+      deparmentlist: [{
+        key: 1,
+        name: '内科'
+      },
+      {
+        key: 2,
+        name: '内分泌科'
+      },
+      {
+        key: 3,
+        name: '肝胆科'
+      },
+      {
+        key: 4,
+        name: '心胸外科'
+      },
+      {
+        key: 5,
+        name: '预防保健科'
+      },
+      {
+        key: 6,
+        name: '护理部'
+      },
+      {
+        key: 7,
+        name: '营养科'
+      },
+      {
+        key: 8,
+        name: '免疫科'
+      },
+      {
+        key: 9,
+        name: '麻醉科'
+      },
+      {
+        key: 10,
+        name: '康复科'
+      },
+      {
+        key: 11,
+        name: '血液科'
+      },
+      {
+        key: 12,
+        name: '药剂科'
+      },
+      {
+        key: 13,
+        name: '放射科'
+      },
+      {
+        key: 14,
+        name: '肾内科'
+      },
+      {
+        key: 15,
+        name: '心内科'
+      },
+      {
+        key: 16,
+        name: '感染传染科'
+      },
+      {
+        key: 17,
+        name: '儿科'
+      },
+      {
+        key: 18,
+        name: '妇科'
+      },
+      {
+        key: 19,
+        name: '骨科'
+      },
+      {
+        key: 20,
+        name: '神经科'
+      }],
+      positionList: [{
+        key: 1,
+        name: '主任医师'
+      },
+      {
+        key: 2,
+        name: '副主任医师'
+      },
+      {
+        key: 3,
+        name: '主治医师'
+      },
+      {
+        key: 4,
+        name: '医师'
+      },
+      {
+        key: 5,
+        name: '临床营养师'
+      },
+      {
+        key: 6,
+        name: '药师'
+      }],
       dataTitle: [
         {
           title: '姓名',
@@ -52,10 +162,12 @@ export default {
         },
         {
           title: '所属科室',
+          slot: 'department',
           key: 'department'
         },
         {
           title: '职称',
+          slot: 'position',
           key: 'position'
         },
         {

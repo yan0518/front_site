@@ -17,7 +17,7 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: 'http://api_test.test/api/',
+    dev: 'http://api.pigzu.com/api/',
     pro: 'http://api.pigzu.com/api/'
   },
   /**
