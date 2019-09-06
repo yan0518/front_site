@@ -2,8 +2,9 @@
   <div>
     <Modal
         v-model="qrCode" :mask-closable='false' :footer-hide="true" :closable="true" title='请微信扫描二维码'>
-        <div style="margin: 5% 30%;" >
+        <div style="margin: 5% 20%;" >
           <div class="qrCode" ref='qrCode'></div>
+          <div style="font-weight: bold;font-size: 20px;margin: 5% 35%;">{{doc_name}}</div>
         </div>
     </Modal>
   </div>
@@ -17,7 +18,8 @@ export default {
   data: () => {
     return {
       qrCode: false,
-      url: ''
+      url: '',
+      doc_name: ''
     }
   },
   watch: {
@@ -39,8 +41,8 @@ export default {
     creatQrCode (url) {
       qrcode = new QRCode(this.$refs.qrCode, {
         text: url,
-        width: 150,
-        height: 150,
+        width: 300,
+        height: 300,
         colorDark: '#000',
         colorLight: '#fff'
       })

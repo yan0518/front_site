@@ -19,7 +19,7 @@
           <label v-for="(item, idx) in positionList" :key="idx" v-if="item.key == row.position">{{item.name}}</label>
         </template>
         <template slot-scope="{ row, index }" slot="action">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="show(row.uuid)">二维码</Button>
+          <Button type="primary" size="small" style="margin-right: 5px" @click="show(row)">二维码</Button>
           <Button type="success" size="small" style="margin-right: 5px" @click="edit(row.id)">编辑</Button>
           <Button type="error" size="small" @click="remove(index, row.id)">删除</Button>
         </template>
@@ -214,9 +214,10 @@ export default {
       this.pageNum = pageNum
       this.getData(pageNum)
     },
-    show (uuid) {
-      getDocQrcode(uuid).then(res => {
+    show (row) {
+      getDocQrcode(row.uuid).then(res => {
         if (res.data.code === 1) {
+          this.$refs.qrcodeModal.doc_name = row.name
           this.$refs.qrcodeModal.url = res.data.data
           this.$refs.qrcodeModal.qrCode = true
         } else {
